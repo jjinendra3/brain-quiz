@@ -139,100 +139,87 @@ export default function QuizPage() {
                   {score}
                 </motion.span>
               </div>
-              <ThemeSelector
+              {/* <ThemeSelector
                 currentTheme={selectedTheme}
                 onThemeChange={handleThemeChange}
-              />
+              /> */}
             </div>
           )}
         </header>
+        <div className="max-h-screen">
+          <main>
+            <AnimatePresence mode="wait">
+              {currentStep === "intro" && (
+                <motion.div
+                  key="intro"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <QuizIntro
+                    onStart={handleStartQuiz}
+                    currentTheme={selectedTheme}
+                    onThemeChange={handleThemeChange}
+                  />
+                </motion.div>
+              )}
 
-        <main>
-          <AnimatePresence mode="wait">
-            {currentStep === "intro" && (
-              <motion.div
-                key="intro"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <QuizIntro
-                  onStart={handleStartQuiz}
-                  currentTheme={selectedTheme}
-                  onThemeChange={handleThemeChange}
-                />
-              </motion.div>
-            )}
+              {currentStep === "quiz" && (
+                <motion.div
+                  key="quiz"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {rewardModal.show && (
+                    <RewardCarousel bonusPoints={rewardModal.points} />
+                  )}
+                  {!rewardModal.show && (
+                    <QuizQuestion
+                      question={questions[currentQuestionIndex]}
+                      onAnswer={handleAnswerSubmit}
+                      questionNumber={currentQuestionIndex + 1}
+                      totalQuestions={questions.length}
+                    />
+                  )}
+                </motion.div>
+              )}
 
-            {currentStep === "quiz" && (
-              <motion.div
-                key="quiz"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                {rewardModal.show && (
-                  <RewardCarousel bonusPoints={rewardModal.points} />
-                )}
-                {!rewardModal.show && (
-                  <QuizQuestion
-                    question={questions[currentQuestionIndex]}
-                    onAnswer={handleAnswerSubmit}
-                    questionNumber={currentQuestionIndex + 1}
+              {currentStep === "results" && (
+                <motion.div
+                  key="results"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <QuizResults
+                    score={score}
                     totalQuestions={questions.length}
+                    username={username}
+                    onPlayAgain={handlePlayAgain}
                   />
-                )}
-              </motion.div>
-            )}
+                  <div className="mt-12">
+                    <Leaderboard
+                      leaderboard={leaderboard}
+                      currentUsername={username}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </main>
 
-            {currentStep === "results" && (
-              <motion.div
-                key="results"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <QuizResults
-                  score={score}
-                  totalQuestions={questions.length}
-                  username={username}
-                  onPlayAgain={handlePlayAgain}
-                />
-                <div className="mt-12">
-                  <Leaderboard
-                    leaderboard={leaderboard}
-                    currentUsername={username}
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </main>
-
-        <footer className="mt-12 text-center text-sm text-muted-foreground">
-          <p>
-            © {new Date().getFullYear()} Brain Blitz Quiz. All rights reserved.
-          </p>
-          <div className="flex space-x-4">
-            <a
-              href="https://linkedin.com/in/jjinendra3"
-              target="_blank"
-              className="text-gray-400 hover:text-primary transition-colors"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href="https://github.com/jjinendra3"
-              target="_blank"
-              className="text-gray-400 hover:text-primary transition-colors"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-          </div>
-        </footer>
+          <footer className="mt-32 text-center text-sm text-muted-foreground">
+            <p>
+              © {new Date().getFullYear()} Brain Blitz Quiz. All rights
+              reserved.
+            </p>
+           
+          </footer>
+        </div>
       </div>
     </div>
   );

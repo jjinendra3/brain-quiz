@@ -1,30 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Sparkles, Brain, Trophy, Clock, Zap, Palette } from "lucide-react"
-import ThemeSelector from "@/components/theme-selector"
-import type { QuizTheme } from "@/types"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Sparkles, Brain, Trophy, Clock, Zap, Palette } from "lucide-react";
+import ThemeSelector from "@/components/theme-selector";
+import type { QuizTheme } from "@/types";
 
 interface QuizIntroProps {
-  onStart: (username: string) => void
-  currentTheme: QuizTheme
-  onThemeChange: (theme: QuizTheme) => void
+  onStart: (username: string) => void;
+  currentTheme: QuizTheme;
+  onThemeChange: (theme: QuizTheme) => void;
 }
 
-export default function QuizIntro({ onStart, currentTheme, onThemeChange }: QuizIntroProps) {
-  const [username, setUsername] = useState("")
-  const [error, setError] = useState("")
+export default function QuizIntro({
+  onStart,
+  currentTheme,
+  onThemeChange,
+}: QuizIntroProps) {
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
 
   const handleStart = () => {
     if (!username.trim()) {
-      setError("Please enter a username to continue")
-      return
+      setError("Please enter a username to continue");
+      return;
     }
-    onStart(username)
-  }
+    onStart(username);
+  };
 
   const features = [
     { icon: <Clock className="w-5 h-5" />, text: "Time-based scoring" },
@@ -33,7 +37,7 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
     { icon: <Brain className="w-5 h-5" />, text: "Test your knowledge" },
     { icon: <Zap className="w-5 h-5" />, text: "Power-ups & lifelines" },
     { icon: <Palette className="w-5 h-5" />, text: "Customizable themes" },
-  ]
+  ];
 
   return (
     <motion.div
@@ -88,7 +92,8 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
             <div
               className="w-full h-full"
               style={{
-                backgroundImage: "radial-gradient(circle, rgba(var(--primary), 0.1) 1px, transparent 1px)",
+                backgroundImage:
+                  "radial-gradient(circle, rgba(var(--primary), 0.1) 1px, transparent 1px)",
                 backgroundSize: "20px 20px",
               }}
             />
@@ -97,9 +102,9 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
       </div>
 
       <div className="relative z-10">
-        <div className="flex justify-end mb-4">
+        {/* <div className="flex justify-end mb-4">
           <ThemeSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
-        </div>
+        </div> */}
 
         <div className="text-center mb-8">
           <motion.div
@@ -125,39 +130,22 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            Test your knowledge with our fun, fast-paced quiz. Answer quickly to earn more points!
+            Test your knowledge with our fun, fast-paced quiz. Answer quickly to
+            earn more points!
           </motion.p>
         </div>
 
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className="flex flex-col items-center text-center p-4 bg-muted/30 backdrop-blur-sm rounded-lg"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(var(--primary), 0.1)" }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mb-2">
-                {feature.icon}
-              </div>
-              <span className="text-sm font-medium">{feature.text}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          className="space-y-4"
+          className="space-y-4 mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <div>
-            <label htmlFor="username" className="block text-sm font-medium mb-2">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium mb-2"
+            >
               Enter your username to begin
             </label>
             <Input
@@ -166,8 +154,8 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
               placeholder="Your username"
               value={username}
               onChange={(e) => {
-                setUsername(e.target.value)
-                setError("")
+                setUsername(e.target.value);
+                setError("");
               }}
               className="w-full"
             />
@@ -182,7 +170,11 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
             )}
           </div>
 
-          <Button onClick={handleStart} className="w-full relative overflow-hidden" size="lg">
+          <Button
+            onClick={handleStart}
+            className="w-full relative overflow-hidden"
+            size="lg"
+          >
             <span className="relative z-10 flex items-center">
               Start Quiz
               <Sparkles className="ml-2 w-4 h-4" />
@@ -193,12 +185,39 @@ export default function QuizIntro({ onStart, currentTheme, onThemeChange }: Quiz
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
               initial={{ x: "-100%" }}
               animate={{ x: "100%" }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2, ease: "linear", repeatDelay: 1 }}
+              transition={{
+                repeat: Number.POSITIVE_INFINITY,
+                duration: 2,
+                ease: "linear",
+                repeatDelay: 1,
+              }}
             />
           </Button>
         </motion.div>
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              className="flex flex-col items-center text-center p-4 bg-muted/30 backdrop-blur-sm rounded-lg"
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: "rgba(var(--primary), 0.1)",
+              }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mb-2">
+                {feature.icon}
+              </div>
+              <span className="text-sm font-medium">{feature.text}</span>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </motion.div>
-  )
+  );
 }
-
